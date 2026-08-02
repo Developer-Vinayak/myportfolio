@@ -36,12 +36,5 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Click on blog cards (future: open individual post)
-  document.querySelectorAll('.blog-card-full').forEach(card => {
-    card.addEventListener('click', function() {
-      const title = this.querySelector('h2')?.textContent || 'Blog Post';
-      console.log(`📝 Opening: ${title}`);
-      // Yahan tu individual blog page open kar sakta hai
-      // window.location.href = `blog-post.html?slug=${slug}`;
-    });
-  });
+
 });

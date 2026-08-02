@@ -6,22 +6,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vinayak Mishra — Blog</title>
   <link rel="icon" type="image/x-icon" href="favicon.png">
-  
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
-  
-  <!-- Styles -->
+
+  <!-- Base styles (gives us .video-wrap / .grain) then blog-specific styles -->
+  <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="blog.css">
 </head>
 
 <body>
 
+  <!-- Background Music (continues from index.html via music.js) -->
+  <audio id="bg-music" loop>
+    <source src="../music.m4a" type="audio/mpeg">
+  </audio>
+
+  <!-- Background Video -->
+  <div class="video-wrap">
+    <video autoplay muted loop playsinline>
+      <source src="../bg.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- Film Grain Overlay -->
+  <div class="grain"></div>
+
   <!-- ============================================
        BLOG PAGE (SLIDES IN)
        ============================================ -->
   <div class="blog-page" id="blogPage">
-    
+
     <!-- Header -->
     <div class="blog-header">
       <div class="blog-header-left">
@@ -35,17 +51,18 @@
 
     <!-- Blog Posts -->
     <div class="blog-grid-full">
-      
-      <article class="blog-card-full">
-        <span class="date">31 July 2026</span>
-        <h2>Simplicity the Saviour</h2>
-        <p>How we made an AI Agent faster and more capable by making it smaller</p>
-      </article>
+
+      <a href="posts/how-i-built-my-portfolio.html" class="blog-card-full">
+        <span class="date">02 August 2026</span>
+        <h2>How I Built My Portfolio</h2>
+        <p>Exploring the journey of creating a modern, responsive portfolio website from scratch</p>
+      </a>
 
     </div>
   </div>
 
-  <!-- Script -->
+  <!-- Scripts -->
+  <script src="../music.js"></script>
   <script src="blog.js"></script>
 
 </body>

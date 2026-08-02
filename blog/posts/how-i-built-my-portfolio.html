@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>How I Built My Portfolio — Vinayak Mishra</title>
+<link rel="icon" type="image/x-icon" href="../favicon.png">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- Base styles (gives us .video-wrap / .grain) then post-specific styles -->
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../blog.css">
+
+<style>
+  /* ============================================
+     POST PAGE — two column layout, glass background
+     ============================================ */
+  html, body { overflow-y: auto; overflow-x: hidden; }
+
+  .post-page {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 560px;
+    gap: 40px;
+    max-width: 1500px;
+    margin: 0;
+    padding: 40px 40px 100px 56px;
+    align-items: start;
+  }
+
+  /* ===== LEFT: text column ===== */
+  .post-content {
+    /* frosted glass panel so text stays readable over the video */
+    background: rgba(10, 10, 10, 0.35);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 36px 40px;
+    border: 1px solid var(--white-faint);
+  }
+
+  .post-header {
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--white-faint);
+  }
+
+  h1.post-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 36px;
+    color: var(--white);
+    margin: 18px 0 8px;
+    line-height: 1.15;
+    text-align: left;
+  }
+
+  .post-date {
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-dim);
+  }
+
+  .post-meta {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    color: var(--white-muted);
+    margin-top: 4px;
+  }
+
+  .post-lede {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    color: var(--white-dim);
+    margin-top: 18px;
+    line-height: 1.7;
+    text-align: left;
+  }
+
+  .post-body p {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    font-size: 14.5px;
+    color: var(--white-dim);
+    line-height: 1.85;
+    margin-bottom: 16px;
+    text-align: left;
+  }
+
+  h2.section-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 21px;
+    color: var(--white);
+    margin: 34px 0 14px;
+    text-align: left;
+  }
+
+  ul.section-list {
+    list-style: none;
+    margin: 4px 0 20px;
+  }
+  ul.section-list li {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    color: var(--white-dim);
+    margin-bottom: 10px;
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.6;
+    text-align: left;
+  }
+  ul.section-list li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--white-faint);
+    margin: 40px 0 28px;
+  }
+
+  /* ===== RIGHT: image slot column ===== */
+  .post-media {
+    position: sticky;
+    top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .post-image-slot {
+    width: 100%;
+    aspect-ratio: 3.5 / 5;
+    border: 1.5px dashed var(--white-faint);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+  }
+
+  .post-image-slot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 18px;
+  }
+
+  .post-image-slot .placeholder-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    color: var(--white-muted);
+    line-height: 1.6;
+  }
+
+  .post-image-slot .placeholder-text code {
+    color: var(--accent);
+    font-family: monospace;
+  }
+
+  /* ===== CONTACT / MESSAGE BOX ===== */
+  .contact-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--white-faint);
+    border-radius: 16px;
+    padding: 28px;
+  }
+
+  .contact-box h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 20px;
+    color: var(--white);
+    margin-bottom: 6px;
+    text-align: left;
+  }
+
+  .contact-box p {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    color: var(--white-muted);
+    margin-bottom: 16px;
+    text-align: left;
+  }
+
+  .contact-box input,
+  .contact-box textarea {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--white-faint);
+    border-radius: 8px;
+    color: var(--white);
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    resize: vertical;
+  }
+  .contact-box input::placeholder,
+  .contact-box textarea::placeholder { color: var(--white-muted); }
+
+  .contact-box input:focus,
+  .contact-box textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .contact-box textarea { min-height: 90px; }
+
+  .contact-box button {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    color: var(--white);
+    background: none;
+    border: 1px solid var(--accent-dim);
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .contact-box button:hover {
+    background: rgba(232, 200, 122, 0.1);
+    border-color: var(--accent);
+  }
+
+  .form-status {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    color: var(--accent);
+    margin-top: 10px;
+    display: none;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1100px) {
+    .post-page {
+      grid-template-columns: 1fr;
+      padding: 32px 24px 80px;
+    }
+    .post-media {
+      position: static;
+      order: -1;
+    }
+    .post-image-slot {
+      aspect-ratio: 16 / 9;
+    }
+    h1.post-title { font-size: 28px; }
+  }
+</style>
+</head>
+
+<body>
+
+  <!-- Background Video (same as blog.html — no music here on purpose) -->
+  <div class="video-wrap">
+    <video autoplay muted loop playsinline>
+      <source src="../../bg.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- Film Grain Overlay -->
+  <div class="grain"></div>
+
+  <div class="post-page">
+
+    <!-- LEFT: text -->
+    <div class="post-content">
+
+      <div class="post-header">
+        <a href="../blog.html" class="back-btn">← back</a>
+        <span class="post-date">02 August 2026</span>
+        <h1 class="post-title">How I Built My Portfolio (And Why I Kept It Simple)</h1>
+        <p class="post-meta">personal field note · by Vinayak Mishra</p>
+        <p class="post-lede">Here's the actual thought process and steps behind building my portfolio site from scratch — and why simplicity ended up being the whole strategy for getting noticed as a builder.</p>
+      </div>
+
+      <div class="post-body">
+
+        <p>The main idea behind the whole build was: fewer decisions for the visitor, not more features for me to show off. A portfolio's job isn't to prove you can use every tool — it's to make one thing obvious fast: who you are and what you build.</p>
+
+        <p>That mattered a lot once I started thinking about this not just as a portfolio, but as a way to build a presence — as someone creating in public, not just applying for things quietly.</p>
+
+        <h2 class="section-title">Why I Built It Myself Instead Of Using A Builder</h2>
+
+        <p>I could've used Wix or Framer and had something live in an hour. I didn't, on purpose. Writing my own HTML/CSS meant every pixel was a decision I made, not a template someone else designed for a thousand other people. It's slower, but it's mine — and for a builder's portfolio, that difference is the entire point.</p>
+
+        <ul class="section-list">
+          <li>one index.html, one style.css, one main.js to start</li>
+          <li>no component library, no build step, no dependencies</li>
+          <li>anything new got added only when the site actually needed it</li>
+        </ul>
+
+        <h2 class="section-title">Design Simplification: One Identity, Not A Template</h2>
+
+        <p>Most portfolio templates try to look "professional" by looking like every other portfolio. I went the other way — dark background, one serif display font for my name, one accent color, a video background instead of a static image, and a single scroll instead of ten pages. It reads as a person, not a resume PDF wearing a website costume.</p>
+
+        <ul class="section-list">
+          <li>one dominant font pairing — serif for identity, sans for body text</li>
+          <li>one accent color used sparingly so it actually means something</li>
+          <li>motion (video bg, hover states) used to add life, not decoration</li>
+          <li>real personality in the copy instead of generic "passionate developer" language</li>
+        </ul>
+
+        <h2 class="section-title">Content Simplification: Show, Don't List</h2>
+
+        <p>Early drafts had a skills section, a timeline, a proper "About Me" essay. All of it got cut. What replaced it was shorter and more honest: what I'm currently obsessed with, what I've actually shipped, and what I'm bad at explaining unless someone asks. People remember specific, weird detail — not bullet-pointed skill lists.</p>
+
+        <h2 class="section-title">Engagement Simplification: Be Findable, Not Loud</h2>
+
+        <p>The part that actually drives engagement wasn't a feature — it was consistency. Every real project got linked directly instead of described secondhand. The nav always points to the same three things: home, blog, projects. Social links sit in the footer, not scattered across pop-ups. When someone finds the site through GitHub, LinkedIn, or a random DM, it looks and feels exactly the same everywhere.</p>
+
+        <ul class="section-list">
+          <li>every platform (GitHub, LinkedIn, X, Instagram) links back to the same site</li>
+          <li>the blog exists so there's always a reason to come back</li>
+          <li>projects link straight to working repos, not just screenshots</li>
+          <li>the site updates often enough that it doesn't look abandoned</li>
+        </ul>
+
+        <h2 class="section-title">The Real Standard For A Builder's Site</h2>
+
+        <p>A personal site doesn't need to do everything a company site does. It needs to answer one question fast — "does this person actually build things?" — and then get out of the way.</p>
+
+        <ul class="section-list">
+          <li>one clear identity instead of ten competing sections</li>
+          <li>real projects linked directly instead of summarized</li>
+          <li>a blog that shows how you think, not just what you finished</li>
+          <li>consistency across platforms instead of a different persona on each one</li>
+        </ul>
+
+        <p>That's the whole approach, really. Not a growth hack, not a template — just removing everything that wasn't the actual point, and being consistent enough that people recognize the site the second time they see it.</p>
+
+      </div>
+
+      <hr class="divider">
+
+      <!-- Contact / message box — sends directly to your inbox via Formspree -->
+      <div class="contact-box">
+        <h3>disagree? or just wanna say something</h3>
+        <p>this goes straight to my inbox, no signup needed on your end.</p>
+
+        <form id="fightMeForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <input type="text" name="name" placeholder="your name (optional)">
+          <input type="email" name="email" placeholder="your email (so i can reply)">
+          <textarea name="message" placeholder="you're wrong about..." required></textarea>
+          <button type="submit">send →</button>
+          <p class="form-status" id="formStatus">sent. i'll read it.</p>
+        </form>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: image slot -->
+    <div class="post-media">
+      <div class="post-image-slot">
+             <img src="p1.jpg" alt="description">
+        </span>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const form = document.getElementById('fightMeForm');
+    const status = document.getElementById('formStatus');
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const data = new FormData(form);
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          status.style.display = 'block';
+          form.reset();
+        } else {
+          alert('Something went wrong, try again.');
+        }
+      } catch (err) {
+        alert('Something went wrong, try again.');
+      }
+    });
+  </script>
+
+</body>
+</html>

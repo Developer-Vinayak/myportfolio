@@ -1,61 +1,6 @@
 // ============================================
-// MUSIC PLAYER
-// ============================================
-window.addEventListener('DOMContentLoaded', () => {
-  const music = document.getElementById('bg-music');
-  const musicBtn = document.getElementById('music-btn');
-  const pauseIcon = document.getElementById('pause-icon');
-  const playIcon = document.getElementById('play-icon');
-
-  // Sync the button icons to the actual audio state
-  function updateUI() {
-    if (music.paused) {
-      pauseIcon.style.display = 'none';
-      playIcon.style.display = 'block';
-    } else {
-      pauseIcon.style.display = 'block';
-      playIcon.style.display = 'none';
-    }
-  }
-
-  // Keep icons in sync whenever audio plays or pauses
-  music.addEventListener('play', updateUI);
-  music.addEventListener('pause', updateUI);
-
-  // Autoplay on first user interaction (browser policy workaround)
-  const startAutoplay = () => {
-    music.play()
-      .then(() => {
-        document.removeEventListener('click', startAutoplay);
-      })
-      .catch(err => {
-        console.log('Autoplay click trigger failed:', err);
-      });
-  };
-
-  // Try immediate autoplay; fall back to click-triggered start
-  music.play()
-    .then(updateUI)
-    .catch(() => {
-      updateUI(); // Show play icon while paused
-      document.addEventListener('click', startAutoplay);
-    });
-
-  // Manual toggle — stop propagation so it doesn't fire the autoplay listener
-  musicBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    document.removeEventListener('click', startAutoplay);
-
-    if (music.paused) {
-      music.play().catch(err => console.log('Play failed:', err));
-    } else {
-      music.pause();
-    }
-  });
-});
-
-// ============================================
 // PHOTO PULL-DOWN INTERACTION
+// (Music logic now lives in music.js — shared across pages)
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
   const photoCard = document.getElementById('photoCard');
@@ -83,13 +28,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!isDragging) return;
     currentY = e.clientY;
     const deltaY = currentY - startY;
-    
+
     if (deltaY > 0) {
       pullProgress = Math.min(deltaY / threshold, 1);
       const scale = 1 + (pullProgress * 0.05);
       const rotation = pullProgress * 3;
       photoCard.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
-      
+
       // Update pull indicator
       const pullIndicator = document.querySelector('.pull-indicator');
       const arrow = pullIndicator?.querySelector('.arrow-down');
@@ -107,14 +52,14 @@ document.addEventListener('DOMContentLoaded', function() {
     isDragging = false;
     photoCard.style.cursor = 'ns-resize';
     document.body.style.userSelect = 'auto';
-    
+
     const deltaY = currentY - startY;
-    
+
     if (deltaY > threshold) {
       // Open blog section
       blogSection.classList.add('active');
       document.body.style.overflow = 'hidden';
-      
+
       // Reset photo
       photoCard.style.transform = 'scale(1) rotate(0deg)';
       const pullIndicator = document.querySelector('.pull-indicator');
@@ -130,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
       setTimeout(() => {
         photoCard.style.transition = 'transform 0.3s ease';
       }, 500);
-      
+
       const pullIndicator = document.querySelector('.pull-indicator');
       const arrow = pullIndicator?.querySelector('.arrow-down');
       if (pullIndicator && arrow) {
@@ -152,10 +97,9 @@ document.addEventListener('DOMContentLoaded', function() {
   photoCard.addEventListener('touchmove', function(e) {
     touchCurrentY = e.touches[0].clientY;
     const deltaY = touchCurrentY - touchStartY;
-    
+
     if (deltaY > 0 && deltaY > threshold) {
       e.preventDefault();
-      // Add haptic feedback if available
       if (navigator.vibrate) navigator.vibrate(10);
     }
   }, { passive: false });
@@ -191,16 +135,13 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // ============================================
-  // BLOG CARD INTERACTIONS
+  // BLOG CARD INTERACTIONS (in-page preview cards)
   // ============================================
   const blogCards = document.querySelectorAll('.blog-card');
   blogCards.forEach(card => {
     card.addEventListener('click', function() {
-      // This is where you can add functionality
-      // to open individual blog posts
       const title = this.querySelector('h3')?.textContent || 'Blog Post';
       console.log(`Opening: ${title}`);
-      // You can add a redirect or modal here
     });
   });
 });
