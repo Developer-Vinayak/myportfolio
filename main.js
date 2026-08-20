@@ -1,8 +1,34 @@
 // ============================================
 // PHOTO PULL-DOWN INTERACTION
-// (Music logic now lives in music.js — shared across pages)
+// (Music logic lives in music.js — shared across pages)
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
+
+  // ============================================
+  // FAKE STATUS BAR TOOLTIP — home link hover
+  // ============================================
+  const homeLink = document.getElementById('homeLink');
+  const fakeStatusBar = document.getElementById('fakeStatusBar');
+
+  if (homeLink && fakeStatusBar) {
+    homeLink.addEventListener('mouseenter', () => {
+      fakeStatusBar.classList.add('visible');
+    });
+    homeLink.addEventListener('mouseleave', () => {
+      fakeStatusBar.classList.remove('visible');
+    });
+    // keyboard accessibility (tab focus)
+    homeLink.addEventListener('focus', () => {
+      fakeStatusBar.classList.add('visible');
+    });
+    homeLink.addEventListener('blur', () => {
+      fakeStatusBar.classList.remove('visible');
+    });
+  }
+
+  // ============================================
+  // PHOTO PULL-DOWN
+  // ============================================
   const photoCard = document.getElementById('photoCard');
   const blogSection = document.getElementById('blogSection');
   const closeBlog = document.getElementById('closeBlog');
