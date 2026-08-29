@@ -7,53 +7,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vinayak Mishra — Builder & AI/Hardware Engineer</title>
   <link rel="icon" type="image/x-icon" href="favicon.png">
-
-  <!-- SEO & Identity Meta Tags -->
   <meta name="description" content="Vinayak Mishra — 20 y/o Electronics & CS student at GLA University. AI engineer, hardware hacker, and builder obsessed with tech that solves real problems.">
   <meta name="author" content="Vinayak Mishra">
   <meta name="keywords" content="Vinayak Mishra, AI Engineering, Hardware, Arduino, Raspberry Pi, Embedded Systems, Computer Vision, IoT, Pothole Detection, GLA University, Electronics, Full Stack">
-
-  <!-- Open Graph (for link previews on social media) -->
   <meta property="og:title" content="Vinayak Mishra — Builder">
   <meta property="og:description" content="20 y/o ECE + CS student obsessed with AI engineering, embedded systems, and building things that work in the real world.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://vinayakmishra.dev">
-
-  <!-- Twitter/X Card -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:site" content="@VinayakMis85929">
   <meta name="twitter:creator" content="@VinayakMis85929">
   <meta name="twitter:title" content="Vinayak Mishra — Builder">
   <meta name="twitter:description" content="AI engineering, hardware hacking, embedded systems. Currently at GLA University. Building things that actually work.">
-
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
-
-  <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-
-  <!-- Background Music -->
   <audio id="bg-music" loop>
     <source src="music.m4a" type="audio/mpeg">
   </audio>
-
-  <!-- Background Video -->
   <div class="video-wrap">
     <video autoplay muted loop playsinline>
       <source src="bg.mp4" type="video/mp4">
     </video>
   </div>
-
-  <!-- Film Grain Overlay -->
   <div class="grain"></div>
 
   <div class="site">
-
-    <!-- Navigation -->
     <nav>
       <div class="nav-brand-wrap">
         <span class="nav-brand">/i-vi-nayak</span>
@@ -61,64 +43,36 @@
           <div class="photo-card" id="photoCard">
             <img src="photo.jpeg" height="67px" alt="Vinayak Mishra" />
             <div class="pull-indicator">
-              <svg class="arrow-down" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 13l5 5 5-5"/>
-                <path d="M7 6l5 5 5-5"/>
+              <svg class="view-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/>
+                <circle cx="12" cy="12" r="3"/>
               </svg>
-              <span class="pull-text">pull</span>
+              <span class="pull-text">view</span>
             </div>
           </div>
         </div>
       </div>
-      <div class="nav-links">
-        <a class="nav-home" id="homeLink" tabindex="0">home</a>
-        <a href="blog/blog.html">blog</a>
-        <a href="https://github.com/Developer-Vinayak" target="_blank">projects</a>
-      </div>
       <div class="nav-status">
         <span class="dot"></span>
-          whenever we meet
+        whenever we meet
       </div>
     </nav>
-
-    <!-- Blog/Reveal Section -->
-    <section class="blog-section" id="blogSection">
-      <div class="blog-content">
-        <h1 class="blog-title">🦧Bade sahab Ka kaam chal rha hai abhi😎</h1>
-        <h2 class="blog-title">📝 thoughts & builds</h2>
-        <div class="blog-grid">
-          <article class="blog-card">
-            <div class="blog-card-inner">
-              <span class="blog-date">coming soon</span>
-              <h3>building potholeai</h3>
-              <p>how i combined gps, iot, and computer vision to detect potholes in real-time</p>
-              <a href="#" class="read-more">read →</a>
-            </div>
-          </article>
-          <article class="blog-card">
-            <div class="blog-card-inner">
-              <span class="blog-date">coming soon</span>
-              <h3>ai engineering deep dive</h3>
-              <p>my journey into ai concepts and building real-world applications</p>
-              <a href="#" class="read-more">read →</a>
-            </div>
-          </article>
-          <article class="blog-card">
-            <div class="blog-card-inner">
-              <span class="blog-date">coming soon</span>
-              <h3>hardware hacking 101</h3>
-              <p>learning embedded systems, arduino, and why circuits break</p>
-              <a href="#" class="read-more">read →</a>
-            </div>
-          </article>
+    <section class="gallery-section" id="gallerySection">
+      <div class="gallery-content">
+        <h2 class="gallery-title">📷 a few frames</h2>
+        <div class="image-grid">
+          <div class="img-tile"><img src="gallery/tile1.jpg" alt="Frame 1"></div>
+          <div class="img-tile"><img src="gallery/tile2.jpg" alt="Frame 2"></div>
+          <div class="img-tile"><img src="gallery/tile3.jpg" alt="Frame 3"></div>
+          <div class="img-tile"><img src="gallery/tile4.jpg" alt="Frame 4"></div>
+          <div class="img-tile"><img src="gallery/tile5.jpg" alt="Frame 5"></div>
+          <div class="img-tile"><img src="gallery/tile6.jpg" alt="Frame 6"></div>
         </div>
-        <div class="blog-close">
-          <button id="closeBlog">↑ close</button>
+        <div class="gallery-close">
+          <button id="closeGallery">↑ close</button>
         </div>
       </div>
     </section>
-
-    <!-- Hero Section -->
     <section class="hero">
       <p class="hello">hey there</p>
 
@@ -148,23 +102,21 @@
       </blockquote>
     </section>
 
-    <!-- Footer -->
     <footer>
       <span class="ps">
-        <!-- Music Toggle Button -->
         <button id="music-btn" title="Toggle Music">
-          <!-- Pause Icon (visible when playing) -->
           <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="white">
             <rect x="6" y="4" width="4" height="16" />
             <rect x="14" y="4" width="4" height="16" />
           </svg>
-          <!-- Play Icon (visible when paused) -->
           <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="white" style="display:none">
             <polygon points="5,3 19,12 5,21" />
           </svg>
         </button>
         still learning. always building.
       </span>
+      <a href="blog/blog.html">↗ blog</a>
+      <span class="sep">·</span>
       <a href="https://www.linkedin.com/in/i-vi-nayak/" target="_blank">↗ linkedin</a>
       <span class="sep">·</span>
       <a href="https://www.instagram.com/i_vi_nayak/" target="_blank">↗ insta</a>
@@ -175,8 +127,6 @@
     </footer>
 
   </div>
-  <div class="fake-status-bar" id="fakeStatusBar">no where is your home until you build yourself</div>
-  <!-- Scripts -->
   <script src="music.js"></script>
   <script src="main.js"></script>
 

@@ -1,75 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vinayak Mishra — Blog</title>
+    <link rel="icon" type="image/x-icon" href="../favicon.png" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vinayak Mishra — Blog</title>
-  <link rel="icon" type="image/x-icon" href="favicon.png">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="blog.css" />
+  </head>
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <body>
+    <audio id="bg-music" loop>
+      <source src="../music.m4a" type="audio/mpeg" />
+    </audio>
 
-  <!-- Base styles (gives us .video-wrap / .grain) then blog-specific styles -->
-  <link rel="stylesheet" href="../style.css">
-  <link rel="stylesheet" href="blog.css">
-</head>
-
-<body>
-
-  <!-- Background Music (continues from index.html via music.js) -->
-  <audio id="bg-music" loop>
-    <source src="../music.m4a" type="audio/mpeg">
-  </audio>
-
-  <!-- Background Video -->
-  <div class="video-wrap">
-    <video autoplay muted loop playsinline>
-      <source src="../bg.mp4" type="video/mp4">
-    </video>
-  </div>
-
-  <!-- Film Grain Overlay -->
-  <div class="grain"></div>
-
-  <!-- ============================================
-       BLOG PAGE (SLIDES IN)
-       ============================================ -->
-  <div class="blog-page" id="blogPage">
-
-    <!-- Header -->
-    <div class="blog-header">
-      <div class="blog-header-left">
-        <button class="back-btn" id="backBtn">
-          ← back
-        </button>
-        <h1 class="blog-title-main">/blog <em>· Just thoughts of Unfulfilled Mind</em></h1>
+    <div class="video-wrap">
+      <video autoplay muted loop playsinline>
+        <source src="../bg.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="grain"></div>
+    <div class="blog-page" id="blogPage">
+      <div class="blog-header">
+        <div class="blog-header-left">
+          <button class="back-btn" id="backBtn">← back</button>
+          <h1 class="blog-title-main">
+            /blog <em>· Just thoughts of Unfulfilled Mind</em>
+          </h1>
+        </div>
+        <span class="blog-count">2 posts</span>
       </div>
-      <span class="blog-count">2 posts</span>
+      <div class="blog-grid-full">
+        <a href="posts/how-i-built-my-portfolio.html" class="blog-card-full">
+          <span class="date">02 August 2026</span>
+          <h2>How I Built My Portfolio</h2>
+          <p>
+            Exploring the journey of creating a modern, responsive portfolio
+            website from scratch
+          </p>
+        </a>
+
+        <a href="posts/how-i-learned-backend.html" class="blog-card-full">
+          <span class="date">19 August 2026</span>
+          <h2>How I Learned Backend</h2>
+          <p>
+            Console, servers, JWT, and building a Spotify-style backend from
+            scratch
+          </p>
+        </a>
+      </div>
     </div>
 
-    <!-- Blog Posts -->
-    <div class="blog-grid-full">
-
-      <a href="posts/how-i-built-my-portfolio.html" class="blog-card-full">
-        <span class="date">02 August 2026</span>
-        <h2>How I Built My Portfolio</h2>
-        <p>Exploring the journey of creating a modern, responsive portfolio website from scratch</p>
-      </a>
-
-      <a href="posts/how-i-learned-backend.html" class="blog-card-full">
-        <span class="date">19 August 2026</span>
-        <h2>How I Learned Backend</h2>
-        <p>Console, servers, JWT, and building a Spotify-style backend from scratch</p>
-      </a>
-
-    </div>
-  </div>
-
-  <!-- Scripts -->
-  <script src="../music.js"></script>
-  <script src="blog.js"></script>
-
-</body>
+    <!-- Scripts -->
+    <script src="../music.js"></script>
+    <script src="blog.js"></script>
+  </body>
 </html>

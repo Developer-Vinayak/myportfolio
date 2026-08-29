@@ -1,482 +1,579 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Learning Backend For Real — Vinayak Mishra</title>
-<link rel="icon" type="image/x-icon" href="../favicon.png">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Learning Backend For Real — Vinayak Mishra</title>
+    <link rel="icon" type="image/x-icon" href="../../favicon.png" />
 
-<!-- Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
 
-<!-- Base styles (gives us .video-wrap / .grain) then post-specific styles -->
-<link rel="stylesheet" href="../../style.css">
-<link rel="stylesheet" href="../blog.css">
+    <link rel="stylesheet" href="../../style.css" />
+    <link rel="stylesheet" href="../blog.css" />
 
-<style>
-  /* ============================================
-     POST PAGE — two column layout, glass background
-     ============================================ */
-  html, body { overflow-y: auto; overflow-x: hidden; }
-
-  .post-page {
-    position: relative;
-    z-index: 2;
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 560px;
-    gap: 40px;
-    max-width: 1500px;
-    margin: 0;
-    padding: 40px 40px 100px 56px;
-    align-items: start;
-  }
-
-  /* ===== LEFT: text column ===== */
-  .post-content {
-    background: rgba(10, 10, 10, 0.35);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 20px;
-    padding: 36px 40px;
-    border: 1px solid var(--white-faint);
-  }
-
-  .post-header {
-    margin-bottom: 32px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--white-faint);
-  }
-
-  h1.post-title {
-    font-family: 'Instrument Serif', serif;
-    font-size: 36px;
-    color: var(--white);
-    margin: 18px 0 8px;
-    line-height: 1.15;
-    text-align: left;
-  }
-
-  .post-date {
-    font-family: 'Outfit', sans-serif;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--accent-dim);
-  }
-
-  .post-meta {
-    font-family: 'Outfit', sans-serif;
-    font-size: 13px;
-    color: var(--white-muted);
-    margin-top: 4px;
-  }
-
-  .post-lede {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 300;
-    font-size: 15px;
-    color: var(--white-dim);
-    margin-top: 18px;
-    line-height: 1.7;
-    text-align: left;
-  }
-
-  .post-body p {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 300;
-    font-size: 14.5px;
-    color: var(--white-dim);
-    line-height: 1.85;
-    margin-bottom: 16px;
-    text-align: left;
-  }
-
-  h2.section-title {
-    font-family: 'Instrument Serif', serif;
-    font-size: 21px;
-    color: var(--white);
-    margin: 34px 0 14px;
-    text-align: left;
-  }
-
-  ul.section-list {
-    list-style: none;
-    margin: 4px 0 20px;
-  }
-  ul.section-list li {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 300;
-    font-size: 14px;
-    color: var(--white-dim);
-    margin-bottom: 10px;
-    padding-left: 20px;
-    position: relative;
-    line-height: 1.6;
-    text-align: left;
-  }
-  ul.section-list li::before {
-    content: "—";
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-  }
-
-  /* Roadmap / phase tracker */
-  .phase-track {
-    margin: 4px 0 24px;
-    border: 1px solid var(--white-faint);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-  .phase-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 18px;
-    border-bottom: 1px solid var(--white-faint);
-    font-family: 'Outfit', sans-serif;
-  }
-  .phase-row:last-child { border-bottom: none; }
-  .phase-row .phase-name {
-    flex: 1;
-    font-size: 13.5px;
-    color: var(--white);
-  }
-  .phase-row .phase-topic {
-    flex: 2;
-    font-size: 13px;
-    color: var(--white-dim);
-  }
-  .phase-status {
-    font-size: 11px;
-    padding: 4px 10px;
-    border-radius: 20px;
-    white-space: nowrap;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .phase-status.done {
-    color: #7fd99a;
-    background: rgba(127, 217, 154, 0.1);
-    border: 1px solid rgba(127, 217, 154, 0.25);
-  }
-  .phase-status.pending {
-    color: var(--accent);
-    background: rgba(232, 200, 122, 0.08);
-    border: 1px solid rgba(232, 200, 122, 0.2);
-  }
-
-  .repo-link-box {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    border: 1px solid var(--white-faint);
-    border-radius: 12px;
-    padding: 14px 18px;
-    margin: 4px 0 24px;
-    font-family: 'Outfit', sans-serif;
-    background: rgba(255, 255, 255, 0.03);
-  }
-  .repo-link-box .repo-text { font-size: 13px; color: var(--white-dim); }
-  .repo-link-box a {
-    font-size: 13px;
-    color: var(--accent);
-    text-decoration: none;
-    border-bottom: 1px solid var(--accent-dim);
-    white-space: nowrap;
-  }
-  .repo-link-box a:hover { border-color: var(--accent); }
-
-  .divider {
-    border: none;
-    border-top: 1px solid var(--white-faint);
-    margin: 40px 0 28px;
-  }
-
-  /* ===== RIGHT: image slot column ===== */
-  .post-media {
-    position: sticky;
-    top: 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .post-image-slot {
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    border: 1.5px dashed var(--white-faint);
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 24px;
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    overflow: hidden;
-  }
-
-  .post-image-slot img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 18px;
-  }
-
-  .post-image-slot .placeholder-text {
-    font-family: 'Outfit', sans-serif;
-    font-size: 12px;
-    color: var(--white-muted);
-    line-height: 1.6;
-  }
-
-  .post-image-slot .placeholder-text code {
-    color: var(--accent);
-    font-family: monospace;
-  }
-
-  /* ===== CONTACT / MESSAGE BOX ===== */
-  .contact-box {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--white-faint);
-    border-radius: 16px;
-    padding: 28px;
-  }
-
-  .contact-box h3 {
-    font-family: 'Instrument Serif', serif;
-    font-size: 20px;
-    color: var(--white);
-    margin-bottom: 6px;
-    text-align: left;
-  }
-
-  .contact-box p {
-    font-family: 'Outfit', sans-serif;
-    font-size: 13px;
-    color: var(--white-muted);
-    margin-bottom: 16px;
-    text-align: left;
-  }
-
-  .contact-box input,
-  .contact-box textarea {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--white-faint);
-    border-radius: 8px;
-    color: var(--white);
-    font-family: 'Outfit', sans-serif;
-    font-size: 14px;
-    padding: 12px 14px;
-    margin-bottom: 12px;
-    resize: vertical;
-  }
-  .contact-box input::placeholder,
-  .contact-box textarea::placeholder { color: var(--white-muted); }
-
-  .contact-box input:focus,
-  .contact-box textarea:focus {
-    outline: none;
-    border-color: var(--accent);
-  }
-
-  .contact-box textarea { min-height: 90px; }
-
-  .contact-box button {
-    font-family: 'Outfit', sans-serif;
-    font-size: 13px;
-    color: var(--white);
-    background: none;
-    border: 1px solid var(--accent-dim);
-    border-radius: 8px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  .contact-box button:hover {
-    background: rgba(232, 200, 122, 0.1);
-    border-color: var(--accent);
-  }
-
-  .form-status {
-    font-family: 'Outfit', sans-serif;
-    font-size: 13px;
-    color: var(--accent);
-    margin-top: 10px;
-    display: none;
-  }
-
-  /* ===== RESPONSIVE ===== */
-  @media (max-width: 1100px) {
-    .post-page {
-      grid-template-columns: 1fr;
-      padding: 32px 24px 80px;
-    }
-    .post-media {
-      position: static;
-      order: -1;
-    }
-    .post-image-slot {
-      aspect-ratio: 16 / 9;
-    }
-    h1.post-title { font-size: 28px; }
-    .phase-row { flex-wrap: wrap; }
-  }
-</style>
-</head>
-
-<body>
-
-  <!-- Background Video (same as blog.html — no music here on purpose) -->
-  <div class="video-wrap">
-    <video autoplay muted loop playsinline>
-      <source src="../../bg.mp4" type="video/mp4">
-    </video>
-  </div>
-
-  <!-- Film Grain Overlay -->
-  <div class="grain"></div>
-
-  <div class="post-page">
-
-    <!-- LEFT: text -->
-    <div class="post-content">
-
-      <div class="post-header">
-        <a href="../blog.html" class="back-btn">← back</a>
-        <span class="post-date">19 August 2026</span>
-        <h1 class="post-title">Learning Backend For Real (Not Just Copy-Pasting Tutorials)</h1>
-        <p class="post-meta">personal field note · by Vinayak Mishra</p>
-        <p class="post-lede">A few months ago "server" and "console" were just words I typed without really understanding. Here's what actually changed, what finally clicked, and the Spotify-style backend I built while figuring it out.</p>
-      </div>
-
-      <div class="post-body">
-
-        <h2 class="section-title">What A Server Actually Is</h2>
-
-        <p>For the longest time I thought of "the backend" as some vague cloud thing that just happens. What actually clicked was simpler than I expected: a server is just a program running somewhere, sitting and waiting, listening on a port for someone to send it a request. That's it. No magic — just code that never stops running, constantly checking "did someone ask me for something?"</p>
-
-        <p>The browser, on the other hand, doesn't know anything on its own. It sends a request out into the internet — "hey, give me this data" — and just waits. It has no memory of your database, no idea what a user's password hash looks like, no access to anything private. That separation is the entire reason backend exists: the browser is public and exposed, the server is where the actual logic and secrets live.</p>
-
-        <h2 class="section-title">The Console Finally Made Sense</h2>
-
-        <p>I used <code>console.log()</code> for months without really understanding what I was looking at. The console isn't just "print stuff to check if it works" — it's the closest thing to a conversation with your own code while it's running. On the frontend, the browser console shows you what's happening in the user's browser, in real time, as they click and scroll. On the backend, the terminal running your server shows what's happening on the server side — requests coming in, database queries, errors before they ever reach a user.</p>
-
-        <p>Once I stopped treating the console as a debugging afterthought and started treating it as the primary way to actually see what my code is doing step by step, backend logic stopped feeling like a black box.</p>
-
-        <h2 class="section-title">Where I Actually Am Right Now</h2>
-
-        <div class="phase-track">
-          <div class="phase-row">
-            <span class="phase-name">Phase 1</span>
-            <span class="phase-topic">JavaScript + Node.js Modules</span>
-            <span class="phase-status done">Done</span>
-          </div>
-          <div class="phase-row">
-            <span class="phase-name">Phase 2</span>
-            <span class="phase-topic">Express.js + Middleware + JWT</span>
-            <span class="phase-status done">Done</span>
-          </div>
-          <div class="phase-row">
-            <span class="phase-name">Phase 3</span>
-            <span class="phase-topic">MongoDB + Mongoose</span>
-            <span class="phase-status pending">In Progress</span>
-          </div>
-          <div class="phase-row">
-            <span class="phase-name">Phase 4</span>
-            <span class="phase-topic">Bcrypt + Refresh Tokens</span>
-            <span class="phase-status pending">Next Up</span>
-          </div>
-        </div>
-
-        <p>Phase 1 and 2 stopped being theory once I actually built something with them — writing my own middleware, seeing a JWT get generated and verified on a real request instead of just reading about how JWTs work in a blog post. Phase 3 is where I am now: not stuck, just still tightening how I structure schemas and relationships properly instead of hacking things together until they work. Phase 4 — proper password hashing and refresh token rotation — is next, and honestly the part I'm most looking forward to, because it's where "it works" turns into "it's actually secure."</p>
-
-        <h2 class="section-title">Building A Spotify-Style Backend To Actually Test All This</h2>
-
-        <p>Reading about auth and middleware is one thing. Building an API where none of it is optional is another. So I built a Spotify-style backend — a real RESTful API for a music platform, with separate flows for a regular listener and an artist account, because those two roles need genuinely different permissions, not just a different UI on top of the same data.</p>
-
-        <div class="repo-link-box">
-          <span class="repo-text">🎵 spotify-backend — full source on GitHub</span>
-          <a href="https://github.com/Developer-Vinayak/spotify-backend" target="_blank">view repo →</a>
-        </div>
-
-        <p>The stack ended up being Node.js + Express on top, MongoDB with Mongoose for data, JWT for authentication, and bcrypt for password hashing. Nothing exotic — the goal wasn't to use every tool, it was to actually understand every tool I used.</p>
-
-        <ul class="section-list">
-          <li>signup / login with JWT-based authentication</li>
-          <li>protected routes gated behind custom auth middleware</li>
-          <li>full CRUD for songs — artists can add and manage tracks</li>
-          <li>playlist creation and management for regular users</li>
-          <li>separate permission logic so an artist account and a listener account can't do the same things</li>
-          <li>user profile management tied to the authenticated session</li>
-        </ul>
-
-        <p>The middleware part is what actually taught me the most. Writing a function that sits between the request and the route handler — checking the token, deciding whether this request is even allowed to continue — made "authentication" stop being an abstract concept and start being a piece of code I had written and could point to.</p>
-
-        <h2 class="section-title">What's Still Rough</h2>
-
-        <p>I'm not going to pretend this is finished. The Mongoose schemas need cleaner relationships between users, artists, songs, and playlists instead of some of the workarounds I used to get things working fast. And right now, tokens don't refresh — once they expire, that's it, log in again. Phase 4 fixes exactly that: proper bcrypt-hashed passwords everywhere and refresh tokens so sessions don't just die without warning.</p>
-
-        <p>That's the honest state of it. Not a finished product — a working one, with a clear list of what's next.</p>
-
-      </div>
-
-      <hr class="divider">
-
-      <!-- Contact / message box — sends directly to your inbox via Formspree -->
-      <div class="contact-box">
-        <h3>disagree? or just wanna say something</h3>
-        <p>this goes straight to my inbox, no signup needed on your end.</p>
-
-        <form id="fightMeForm" action="https://formspree.io/f/xzdnnkoz" method="POST">
-          <input type="text" name="name" placeholder="your name (optional)">
-          <input type="email" name="email" placeholder="your email (so i can reply)">
-          <textarea name="message" placeholder="you're wrong about..." required></textarea>
-          <button type="submit">send →</button>
-          <p class="form-status" id="formStatus">sent. i'll read it.</p>
-        </form>
-      </div>
-
-    </div>
-
-    <!-- RIGHT: image slot -->
-    <div class="post-media">
-      <div class="post-image-slot">
-             <img src="p2.jpeg" alt="description">
-        </span>
-      </div>
-    </div>
-
-  </div>
-
-  <script>
-    const form = document.getElementById('fightMeForm');
-    const status = document.getElementById('formStatus');
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const data = new FormData(form);
-      try {
-        const res = await fetch(form.action, {
-          method: 'POST',
-          body: data,
-          headers: { 'Accept': 'application/json' }
-        });
-        if (res.ok) {
-          status.style.display = 'block';
-          form.reset();
-        } else {
-          alert('Something went wrong, try again.');
-        }
-      } catch (err) {
-        alert('Something went wrong, try again.');
+    <style>
+      html,
+      body {
+        overflow-y: auto;
+        overflow-x: hidden;
       }
-    });
-  </script>
 
-</body>
+      .post-page {
+        position: relative;
+        z-index: 2;
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 560px;
+        gap: 40px;
+        max-width: 1500px;
+        margin: 0;
+        padding: 40px 40px 100px 56px;
+        align-items: start;
+      }
+
+      .post-content {
+        background: rgba(10, 10, 10, 0.35);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 36px 40px;
+        border: 1px solid var(--white-faint);
+      }
+
+      .post-header {
+        margin-bottom: 32px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--white-faint);
+      }
+
+      h1.post-title {
+        font-family: "Instrument Serif", serif;
+        font-size: 36px;
+        color: var(--white);
+        margin: 18px 0 8px;
+        line-height: 1.15;
+        text-align: left;
+      }
+
+      .post-date {
+        font-family: "Outfit", sans-serif;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--accent-dim);
+      }
+
+      .post-meta {
+        font-family: "Outfit", sans-serif;
+        font-size: 13px;
+        color: var(--white-muted);
+        margin-top: 4px;
+      }
+
+      .post-lede {
+        font-family: "Outfit", sans-serif;
+        font-weight: 300;
+        font-size: 15px;
+        color: var(--white-dim);
+        margin-top: 18px;
+        line-height: 1.7;
+        text-align: left;
+      }
+
+      .post-body p {
+        font-family: "Outfit", sans-serif;
+        font-weight: 300;
+        font-size: 14.5px;
+        color: var(--white-dim);
+        line-height: 1.85;
+        margin-bottom: 16px;
+        text-align: left;
+      }
+
+      h2.section-title {
+        font-family: "Instrument Serif", serif;
+        font-size: 21px;
+        color: var(--white);
+        margin: 34px 0 14px;
+        text-align: left;
+      }
+
+      ul.section-list {
+        list-style: none;
+        margin: 4px 0 20px;
+      }
+      ul.section-list li {
+        font-family: "Outfit", sans-serif;
+        font-weight: 300;
+        font-size: 14px;
+        color: var(--white-dim);
+        margin-bottom: 10px;
+        padding-left: 20px;
+        position: relative;
+        line-height: 1.6;
+        text-align: left;
+      }
+      ul.section-list li::before {
+        content: "—";
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+      }
+
+      .phase-track {
+        margin: 4px 0 24px;
+        border: 1px solid var(--white-faint);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .phase-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 18px;
+        border-bottom: 1px solid var(--white-faint);
+        font-family: "Outfit", sans-serif;
+      }
+      .phase-row:last-child {
+        border-bottom: none;
+      }
+      .phase-row .phase-name {
+        flex: 1;
+        font-size: 13.5px;
+        color: var(--white);
+      }
+      .phase-row .phase-topic {
+        flex: 2;
+        font-size: 13px;
+        color: var(--white-dim);
+      }
+      .phase-status {
+        font-size: 11px;
+        padding: 4px 10px;
+        border-radius: 20px;
+        white-space: nowrap;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .phase-status.done {
+        color: #7fd99a;
+        background: rgba(127, 217, 154, 0.1);
+        border: 1px solid rgba(127, 217, 154, 0.25);
+      }
+      .phase-status.pending {
+        color: var(--accent);
+        background: rgba(232, 200, 122, 0.08);
+        border: 1px solid rgba(232, 200, 122, 0.2);
+      }
+
+      .repo-link-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border: 1px solid var(--white-faint);
+        border-radius: 12px;
+        padding: 14px 18px;
+        margin: 4px 0 24px;
+        font-family: "Outfit", sans-serif;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .repo-link-box .repo-text {
+        font-size: 13px;
+        color: var(--white-dim);
+      }
+      .repo-link-box a {
+        font-size: 13px;
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid var(--accent-dim);
+        white-space: nowrap;
+      }
+      .repo-link-box a:hover {
+        border-color: var(--accent);
+      }
+
+      .divider {
+        border: none;
+        border-top: 1px solid var(--white-faint);
+        margin: 40px 0 28px;
+      }
+
+      .post-media {
+        position: sticky;
+        top: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .post-image-slot {
+        width: 100%;
+        aspect-ratio: 4 / 5;
+        border: 1.5px dashed var(--white-faint);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 24px;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        overflow: hidden;
+      }
+
+      .post-image-slot img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 18px;
+      }
+
+      .post-image-slot .placeholder-text {
+        font-family: "Outfit", sans-serif;
+        font-size: 12px;
+        color: var(--white-muted);
+        line-height: 1.6;
+      }
+
+      .post-image-slot .placeholder-text code {
+        color: var(--accent);
+        font-family: monospace;
+      }
+
+      .contact-box {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--white-faint);
+        border-radius: 16px;
+        padding: 28px;
+      }
+
+      .contact-box h3 {
+        font-family: "Instrument Serif", serif;
+        font-size: 20px;
+        color: var(--white);
+        margin-bottom: 6px;
+        text-align: left;
+      }
+
+      .contact-box p {
+        font-family: "Outfit", sans-serif;
+        font-size: 13px;
+        color: var(--white-muted);
+        margin-bottom: 16px;
+        text-align: left;
+      }
+
+      .contact-box input,
+      .contact-box textarea {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--white-faint);
+        border-radius: 8px;
+        color: var(--white);
+        font-family: "Outfit", sans-serif;
+        font-size: 14px;
+        padding: 12px 14px;
+        margin-bottom: 12px;
+        resize: vertical;
+      }
+      .contact-box input::placeholder,
+      .contact-box textarea::placeholder {
+        color: var(--white-muted);
+      }
+
+      .contact-box input:focus,
+      .contact-box textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      .contact-box textarea {
+        min-height: 90px;
+      }
+
+      .contact-box button {
+        font-family: "Outfit", sans-serif;
+        font-size: 13px;
+        color: var(--white);
+        background: none;
+        border: 1px solid var(--accent-dim);
+        border-radius: 8px;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .contact-box button:hover {
+        background: rgba(232, 200, 122, 0.1);
+        border-color: var(--accent);
+      }
+
+      .form-status {
+        font-family: "Outfit", sans-serif;
+        font-size: 13px;
+        color: var(--accent);
+        margin-top: 10px;
+        display: none;
+      }
+
+      @media (max-width: 1100px) {
+        .post-page {
+          grid-template-columns: 1fr;
+          padding: 32px 24px 80px;
+        }
+        .post-media {
+          position: static;
+          order: -1;
+        }
+        .post-image-slot {
+          aspect-ratio: 16 / 9;
+        }
+        h1.post-title {
+          font-size: 28px;
+        }
+        .phase-row {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="video-wrap">
+      <video autoplay muted loop playsinline>
+        <source src="../../bg.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="grain"></div>
+
+    <div class="post-page">
+      <div class="post-content">
+        <div class="post-header">
+          <a href="../blog.html" class="back-btn">← back</a>
+          <span class="post-date">19 August 2026</span>
+          <h1 class="post-title">
+            Learning Backend For Real (Not Just Copy-Pasting Tutorials)
+          </h1>
+          <p class="post-meta">personal field note · by Vinayak Mishra</p>
+          <p class="post-lede">
+            A few months ago "server" and "console" were just words I typed
+            without really understanding. Here's what actually changed, what
+            finally clicked, and the Spotify-style backend I built while
+            figuring it out.
+          </p>
+        </div>
+
+        <div class="post-body">
+          <h2 class="section-title">What A Server Actually Is</h2>
+
+          <p>
+            For the longest time I thought of "the backend" as some vague cloud
+            thing that just happens. What actually clicked was simpler than I
+            expected: a server is just a program running somewhere, sitting and
+            waiting, listening on a port for someone to send it a request.
+            That's it. No magic — just code that never stops running, constantly
+            checking "did someone ask me for something?"
+          </p>
+
+          <p>
+            The browser, on the other hand, doesn't know anything on its own. It
+            sends a request out into the internet — "hey, give me this data" —
+            and just waits. It has no memory of your database, no idea what a
+            user's password hash looks like, no access to anything private. That
+            separation is the entire reason backend exists: the browser is
+            public and exposed, the server is where the actual logic and secrets
+            live.
+          </p>
+
+          <h2 class="section-title">The Console Finally Made Sense</h2>
+
+          <p>
+            I used <code>console.log()</code> for months without really
+            understanding what I was looking at. The console isn't just "print
+            stuff to check if it works" — it's the closest thing to a
+            conversation with your own code while it's running. On the frontend,
+            the browser console shows you what's happening in the user's
+            browser, in real time, as they click and scroll. On the backend, the
+            terminal running your server shows what's happening on the server
+            side — requests coming in, database queries, errors before they ever
+            reach a user.
+          </p>
+
+          <p>
+            Once I stopped treating the console as a debugging afterthought and
+            started treating it as the primary way to actually see what my code
+            is doing step by step, backend logic stopped feeling like a black
+            box.
+          </p>
+
+          <h2 class="section-title">Where I Actually Am Right Now</h2>
+
+          <div class="phase-track">
+            <div class="phase-row">
+              <span class="phase-name">Phase 1</span>
+              <span class="phase-topic">JavaScript + Node.js Modules</span>
+              <span class="phase-status done">Done</span>
+            </div>
+            <div class="phase-row">
+              <span class="phase-name">Phase 2</span>
+              <span class="phase-topic">Express.js + Middleware + JWT</span>
+              <span class="phase-status done">Done</span>
+            </div>
+            <div class="phase-row">
+              <span class="phase-name">Phase 3</span>
+              <span class="phase-topic">MongoDB + Mongoose</span>
+              <span class="phase-status pending">In Progress</span>
+            </div>
+            <div class="phase-row">
+              <span class="phase-name">Phase 4</span>
+              <span class="phase-topic">Bcrypt + Refresh Tokens</span>
+              <span class="phase-status pending">Next Up</span>
+            </div>
+          </div>
+
+          <p>
+            Phase 1 and 2 stopped being theory once I actually built something
+            with them — writing my own middleware, seeing a JWT get generated
+            and verified on a real request instead of just reading about how
+            JWTs work in a blog post. Phase 3 is where I am now: not stuck, just
+            still tightening how I structure schemas and relationships properly
+            instead of hacking things together until they work. Phase 4 — proper
+            password hashing and refresh token rotation — is next, and honestly
+            the part I'm most looking forward to, because it's where "it works"
+            turns into "it's actually secure."
+          </p>
+
+          <h2 class="section-title">
+            Building A Spotify-Style Backend To Actually Test All This
+          </h2>
+
+          <p>
+            Reading about auth and middleware is one thing. Building an API
+            where none of it is optional is another. So I built a Spotify-style
+            backend — a real RESTful API for a music platform, with separate
+            flows for a regular listener and an artist account, because those
+            two roles need genuinely different permissions, not just a different
+            UI on top of the same data.
+          </p>
+
+          <div class="repo-link-box">
+            <span class="repo-text"
+              >🎵 spotify-backend — full source on GitHub</span
+            >
+            <a
+              href="https://github.com/Developer-Vinayak/spotify-backend"
+              target="_blank"
+              >view repo →</a
+            >
+          </div>
+
+          <p>
+            The stack ended up being Node.js + Express on top, MongoDB with
+            Mongoose for data, JWT for authentication, and bcrypt for password
+            hashing. Nothing exotic — the goal wasn't to use every tool, it was
+            to actually understand every tool I used.
+          </p>
+
+          <ul class="section-list">
+            <li>signup / login with JWT-based authentication</li>
+            <li>protected routes gated behind custom auth middleware</li>
+            <li>full CRUD for songs — artists can add and manage tracks</li>
+            <li>playlist creation and management for regular users</li>
+            <li>
+              separate permission logic so an artist account and a listener
+              account can't do the same things
+            </li>
+            <li>user profile management tied to the authenticated session</li>
+          </ul>
+
+          <p>
+            The middleware part is what actually taught me the most. Writing a
+            function that sits between the request and the route handler —
+            checking the token, deciding whether this request is even allowed to
+            continue — made "authentication" stop being an abstract concept and
+            start being a piece of code I had written and could point to.
+          </p>
+
+          <h2 class="section-title">What's Still Rough</h2>
+
+          <p>
+            I'm not going to pretend this is finished. The Mongoose schemas need
+            cleaner relationships between users, artists, songs, and playlists
+            instead of some of the workarounds I used to get things working
+            fast. And right now, tokens don't refresh — once they expire, that's
+            it, log in again. Phase 4 fixes exactly that: proper bcrypt-hashed
+            passwords everywhere and refresh tokens so sessions don't just die
+            without warning.
+          </p>
+
+          <p>
+            That's the honest state of it. Not a finished product — a working
+            one, with a clear list of what's next.
+          </p>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- Contact / message box — sends directly to your inbox via Formspree -->
+        <div class="contact-box">
+          <h3>disagree? or just wanna say something</h3>
+          <p>this goes straight to my inbox, no signup needed on your end.</p>
+
+          <form
+            id="fightMeForm"
+            action="https://formspree.io/f/xzdnnkoz"
+            method="POST"
+          >
+            <input type="text" name="name" placeholder="your name (optional)" />
+            <input
+              type="email"
+              name="email"
+              placeholder="your email (so i can reply)"
+            />
+            <textarea
+              name="message"
+              placeholder="you're wrong about..."
+              required
+            ></textarea>
+            <button type="submit">send →</button>
+            <p class="form-status" id="formStatus">sent. i'll read it.</p>
+          </form>
+        </div>
+      </div>
+
+      <div class="post-media">
+        <div class="post-image-slot">
+          <img src="p2.jpeg" alt="Backend Project Preview" />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const form = document.getElementById("fightMeForm");
+      const status = document.getElementById("formStatus");
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const data = new FormData(form);
+        try {
+          const res = await fetch(form.action, {
+            method: "POST",
+            body: data,
+            headers: { Accept: "application/json" },
+          });
+          if (res.ok) {
+            status.style.display = "block";
+            form.reset();
+          } else {
+            alert("Something went wrong, try again.");
+          }
+        } catch (err) {
+          alert("Something went wrong, try again.");
+        }
+      });
+    </script>
+  </body>
 </html>
